@@ -7,6 +7,7 @@ JsonObject {
 
     component DesktopClock: JsonObject {
         property bool enabled: false
+        property string timeFormat: "hh:mm:ss"
     }
 
     component Visualiser: JsonObject {
