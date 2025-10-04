@@ -17,10 +17,35 @@ MouseArea {
     implicitHeight: Appearance.font.size.small * 2
 
     onClicked: event => {
-        if (event.button === Qt.LeftButton)
+        if (event.button === Qt.LeftButton) {
+            for (const sub of Config.bar.tray.iconSubs) {
+                if ((!modelData.id.startsWith(sub.id) && !modelData.tooltipTitle.startsWith(sub.tooltipTitle)) || !sub.activate)
+                    continue;
+
+                // If a class is configured for this icon substitution, check existing toplevels
+                // and, if a class is specified, focus the first matching window instead of launching a new one.
+                try {
+                    if (sub.class) {
+                        var tls = Hypr.toplevels.values.filter(c => c.lastIpcObject?.class === sub.class);
+
+                        if (tls.length > 0) {
+                            Hypr.dispatch(`focuswindow class:${sub.class}`);
+                        } else {
+                            Hypr.dispatch(`exec ${sub.activate}`);
+                        }
+                    } else {
+                        Hypr.dispatch(`exec ${sub.activate}`);
+                    }
+                } catch (e) {
+                    // If anything goes wrong reading toplevels, fall back to exec below
+                    console.warn("TrayItem: failed to check Hypr.toplevels", e);
+                }
+                return;
+            }
             modelData.activate();
-        else
+        } else {
             modelData.secondaryActivate();
+        }
     }
 
     ColouredIcon {
