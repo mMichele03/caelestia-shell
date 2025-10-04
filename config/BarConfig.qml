@@ -97,6 +97,7 @@ JsonObject {
 
     component Clock: JsonObject {
         property bool showIcon: true
+        property string action: "google-chrome-stable --new-window https://calendar.google.com/calendar/"
     }
 
     component Sizes: JsonObject {
