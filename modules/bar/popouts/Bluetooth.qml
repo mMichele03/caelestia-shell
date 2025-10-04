@@ -176,7 +176,8 @@ ColumnLayout {
             color: Colours.palette.m3onPrimaryContainer
 
             function onClicked(): void {
-                root.wrapper.detach("bluetooth");
+                // root.wrapper.detach("bluetooth");
+                Quickshell.execDetached(["app2unit", "--", ...Config.general.apps.bluetooth]);
             }
         }
 
