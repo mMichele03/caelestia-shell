@@ -23,6 +23,14 @@ Column {
             text: "calendar_month"
             color: root.colour
         }
+
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            onClicked: (mouse) => {
+                Hypr.dispatch(`exec ${Config.bar.clock.action}`);
+            }
+        }
     }
 
     StyledText {
