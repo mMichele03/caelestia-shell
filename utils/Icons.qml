@@ -215,9 +215,16 @@ Singleton {
     }
 
     function getTrayIcon(id: string, icon: string): string {
-        for (const sub of Config.bar.tray.iconSubs)
-            if (sub.id === id)
-                return sub.image ? Qt.resolvedUrl(sub.image) : Quickshell.iconPath(sub.icon);
+        for (const sub of Config.bar.tray.iconSubs) {
+            if (id.startsWith(sub.id)) {
+                if (sub.image)
+                    return Qt.resolvedUrl(sub.image);
+                else if (sub.icon)
+                    return Quickshell.iconPath(sub.icon);
+                else
+                    break;
+            }
+        }
 
         if (icon.includes("?path=")) {
             const [name, path] = icon.split("?path=");
